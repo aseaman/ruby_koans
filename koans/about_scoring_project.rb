@@ -31,6 +31,18 @@ require 'edgecase'
 
 def score(dice)
   # You need to write this method
+  rolls = {
+    one:    0,
+    two:    0,
+    three:  0,
+    four:   0,
+    five:   0,
+    six:    0
+  }
+  result = 0
+  dice.each do |d|
+    if (d == 1)
+  end
 end
 
 class AboutScoringAssignment < EdgeCase::Koan
