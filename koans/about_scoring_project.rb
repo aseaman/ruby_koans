@@ -32,17 +32,131 @@ require 'edgecase'
 def score(dice)
   # You need to write this method
   rolls = {
-    one:    0,
-    two:    0,
-    three:  0,
-    four:   0,
-    five:   0,
-    six:    0
+    :one    =>    0,
+    :two    =>    0,
+    :three  =>  0,
+    :four   =>   0,
+    :five   =>   0,
+    :six    =>    0
   }
   result = 0
   dice.each do |d|
     if (d == 1)
+      rolls[:one] += 1
+    end
+    if (d == 2)
+      rolls[:two] += 1
+    end
+    if (d == 3)
+      rolls[:three] += 1
+    end
+    if (d == 4)
+      rolls[:four] += 1
+    end
+    if (d == 5)
+      rolls[:five] += 1
+    end
+    if (d == 6)
+      rolls[:six] += 1
+    end
   end
+  
+  calculate_scores(rolls)
+end
+
+def calculate_scores(rolls)
+  result = 0
+  result += add_ones(rolls[:one])
+  result += add_twos(rolls[:two])
+  result += add_threes(rolls[:three])
+  result += add_fours(rolls[:four])
+  result += add_fives(rolls[:five])
+  result += add_sixes(rolls[:six])
+  return result
+end
+
+def add_ones(count)
+  total = 0
+  while (count > 0)
+    if (count % 3 == 0)
+      total += 1000
+      count -= 3
+      next
+    end
+    total += 100
+    count -= 1
+  end
+  return total
+end
+
+def add_twos(count)
+  total = 0
+  while (count > 0)
+    if (count % 3 == 0)
+      total += 200
+      count -= 3
+    end
+    if (count % 3 == 2 || count % 3 == 1)
+      break
+    end
+  end
+  return total
+end
+
+def add_threes(count)
+  total = 0
+  while (count > 0)
+    if (count % 3 == 0)
+      total += 300
+      count -= 3
+    end
+    if (count % 3 == 2 || count % 3 == 1)
+      break
+    end
+  end
+  return total
+end
+
+def add_fours(count)
+  total = 0
+  while (count > 0)
+    if (count % 3 == 0)
+      total += 400
+      count -= 3
+    end
+    if (count % 3 == 2 || count % 3 == 1)
+      break
+    end
+  end
+  return total
+end
+
+def add_fives(count)
+  total = 0
+  while (count > 0)
+    if (count % 3 == 0)
+      total += 500
+      count -= 3
+      next
+    end
+    total += 50
+    count -= 1
+  end
+  return total
+end
+
+def add_sixes(count)
+  total = 0
+  while (count > 0)
+    if (count % 3 == 0)
+      total += 600
+      count -= 3
+    end
+    if (count % 3 == 2 || count % 3 == 1)
+      break
+    end
+  end
+  return total
 end
 
 class AboutScoringAssignment < EdgeCase::Koan
@@ -79,7 +193,7 @@ class AboutScoringAssignment < EdgeCase::Koan
   end
 
   def test_score_of_mixed_is_sum
-    assert_equal 50, score([2,5,2,2,3])
+    assert_equal 250, score([2,5,2,2,3])
     assert_equal 550, score([5,5,5,5])
   end
 
