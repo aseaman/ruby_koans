@@ -15,6 +15,28 @@ require 'edgecase'
 class Proxy
   def initialize(target_object)
     @object = target_object
+    @message_log = {}
+  end
+  
+  def method_missing(method_name, *args, &block)
+    if @object.respond_to?(method_name)
+      @message_log[method_name] = number_of_times_called(method_name) + 1
+      @object.send(method_name, *args, &block)
+    else
+      super(method_name, *args, &block)
+    end
+  end
+  
+  def messages
+    @message_log.keys.reverse
+  end
+  
+  def called?(method_name)
+    @message_log.key?(method_name)
+  end
+  
+  def number_of_times_called(method_name)
+    @message_log[method_name] || 0
   end
 end
 
@@ -84,7 +106,7 @@ class AboutProxyObjectProject < EdgeCase::Koan
     result = proxy.split
 
     assert_equal ["CODE", "MASH", "2009"], result
-    assert_equal [:upcase!, :split], proxy.messages
+    assert_equal [:split, :upcase!], proxy.messages
   end
 end
 
